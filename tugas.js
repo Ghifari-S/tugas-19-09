@@ -1,34 +1,30 @@
-const readline = require('readline'); // Mengimpor modul readline untuk input/output
+const readline = require('readline');
 
-// Membuat antarmuka readline untuk input dan output
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-const password = "123456"; // Password tetap untuk login
+const password = "123456"; // Password tetap
 let orders = []; // Array untuk menyimpan pesanan
 let nextId = 1; // ID unik untuk setiap pesanan
 
-// Fungsi untuk menanyakan pertanyaan dan mendapatkan jawaban dari pengguna
 function askQuestion(query) {
   return new Promise((resolve) => rl.question(query, resolve));
 }
 
-// Fungsi untuk proses login
-async function login() {
-  let userPassword = await askQuestion('Masukkan password: '); // Meminta pengguna memasukkan password
+async function login() { 
+  let userPassword = await askQuestion('Masukkan password: ');
 
-  if (userPassword === password) { // Memeriksa apakah password benar
+  if (userPassword === password) {
     console.log("Login berhasil!\n");
-    showMenu(); // Menampilkan menu utama jika login berhasil
+    showMenu();
   } else {
-    console.log("Password salah, coba lagi."); // Menampilkan pesan jika password salah
-    rl.close(); // Menutup antarmuka readline
+    console.log("Password salah, coba lagi.");
+    rl.close();
   }
 }
 
-// Fungsi untuk menampilkan menu utama
 async function showMenu() {
   console.log("===== MENU UTAMA =====");
   console.log("1. Buat pesanan baru");
@@ -38,54 +34,50 @@ async function showMenu() {
   console.log("5. Keluar");
   console.log("======================");
 
-  const choice = await askQuestion('Pilih opsi: '); // Meminta pengguna memilih opsi
-  handleMenu(choice); // Menangani pilihan menu
+  const choice = await askQuestion('Pilih opsi: ');
+  handleMenu(choice);
 }
 
-// Fungsi untuk menangani pilihan menu
 async function handleMenu(choice) {
   switch (choice) {
     case '1':
-      await createOrder(); // Memanggil fungsi untuk membuat pesanan baru
+      await createOrder();
       break;
     case '2':
-      readOrders(); // Memanggil fungsi untuk melihat semua pesanan
+      readOrders();
       break;
     case '3':
-      await updateOrder(); // Memanggil fungsi untuk memperbarui pesanan
+      await updateOrder();
       break;
     case '4':
-      await deleteOrder(); // Memanggil fungsi untuk menghapus pesanan
+      await deleteOrder();
       break;
     case '5':
       console.log("Keluar dari aplikasi...");
-      rl.close(); // Menutup antarmuka readline
+      rl.close();
       return;
     default:
-      console.log("Pilihan tidak valid."); // Menampilkan pesan jika pilihan tidak valid
+      console.log("Pilihan tidak valid.");
   }
-  showMenu(); // Menampilkan menu utama lagi setelah menangani pilihan
+  showMenu();
 }
 
-// Fungsi untuk membuat pesanan baru
 async function createOrder() {
-  const customerName = await askQuestion('Masukkan nama pelanggan: '); // Meminta nama pelanggan
-  const productName = await askQuestion('Masukkan nama produk: '); // Meminta nama produk
-  const quantity = await askQuestion('Masukkan jumlah: '); // Meminta jumlah produk
+  const customerName = await askQuestion('Masukkan nama pelanggan: ');
+  const productName = await askQuestion('Masukkan nama produk: ');
+  const quantity = await askQuestion('Masukkan jumlah: ');
 
-  // Membuat objek pesanan baru
   const order = {
-    id: nextId++, // Menetapkan ID unik
+    id: nextId++,
     customerName,
     productName,
     quantity
   };
 
-  orders.push(order); // Menambahkan pesanan ke array orders
-  console.log("Pesanan berhasil dibuat!"); // Menampilkan pesan sukses
+  orders.push(order);
+  console.log("Pesanan berhasil dibuat!");
 }
 
-// Fungsi untuk melihat semua pesanan
 function readOrders() {
   console.log("Daftar Pesanan:");
   orders.forEach(order => {
@@ -93,33 +85,36 @@ function readOrders() {
   });
 }
 
-// Fungsi untuk memperbarui pesanan
 async function updateOrder() {
-  const id = parseInt(await askQuestion('Masukkan ID pesanan yang ingin diperbarui: ')); // Meminta ID pesanan yang ingin diperbarui
-  const order = orders.find(order => order.id === id); // Mencari pesanan berdasarkan ID
+  const id = parseInt(await askQuestion('Masukkan ID pesanan yang ingin diperbarui: '));
+  const order = orders.find(order => order.id === id);
 
   if (order) {
-    // Meminta data baru untuk pesanan
     order.customerName = await askQuestion(`Masukkan nama pelanggan baru (sebelumnya: ${order.customerName}): `);
     order.productName = await askQuestion(`Masukkan nama produk baru (sebelumnya: ${order.productName}): `);
     order.quantity = await askQuestion(`Masukkan jumlah baru (sebelumnya: ${order.quantity}): `);
-    console.log("Pesanan berhasil diperbarui!"); // Menampilkan pesan sukses
+    console.log("Pesanan berhasil diperbarui!");
   } else {
-    console.log("Pesanan tidak ditemukan."); // Menampilkan pesan jika pesanan tidak ditemukan
+    console.log("Pesanan tidak ditemukan.");
   }
 }
 
-// Fungsi untuk menghapus pesanan
 async function deleteOrder() {
-  const id = parseInt(await askQuestion('Masukkan ID pesanan yang ingin dihapus: ')); // Meminta ID pesanan yang ingin dihapus
-  const index = orders.findIndex(order => order.id === id); // Mencari indeks pesanan berdasarkan ID
+  const id = parseInt(await askQuestion('Masukkan ID pesanan yang ingin dihapus: '));
+  const index = orders.findIndex(order => order.id === id);
 
   if (index !== -1) {
-    orders.splice(index, 1); // Menghapus pesanan dari array
-    console.log("Pesanan berhasil dihapus!"); // Menampilkan pesan sukses
+    orders.splice(index, 1);
+    console.log("Pesanan berhasil dihapus!");
   } else {
-    console.log("Pesanan tidak ditemukan."); // Menampilkan pesan jika pesanan tidak ditemukan
+    console.log("Pesanan tidak ditemukan.");
   }
 }
 
-login(); // Memulai proses login
+login();
+
+// setelah kode node tigas.js akan muncul inputan agar masukkan pass
+// jika salah akan relod dan tulis kode node kembai
+// jika benar akan muncul teks login berhasil dan keluar 5 pilihan
+// jika memilih no 1 maka harus input nama barang yg diinginkan dan jumlahnya
+// jika pilih no 2
