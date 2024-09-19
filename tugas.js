@@ -117,4 +117,7 @@ login();
 // jika salah akan relod dan tulis kode node kembai
 // jika benar akan muncul teks login berhasil dan keluar 5 pilihan
 // jika memilih no 1 maka harus input nama barang yg diinginkan dan jumlahnya
-// jika pilih no 2
+// jika pilih no 2 dan pernah mengisi nomor satu maka akan muncul data yg pernah dibuat
+// jika pilih no 3 maka akan bisa mengupdate data yg diinginkan sesuai id nya
+// jika pilih no 4 maka bisa memilih menghapus data sesuai id
+// jika pilih no 5 akan ya begitulah
